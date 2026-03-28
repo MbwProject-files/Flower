@@ -238,7 +238,7 @@ export default function ProductDetails() {
                    </button>
                 </div>
 
-                <div className="pt-4 space-y-2 text-[11px] text-slate-500 border-t border-slate-100">
+                <div className="pt-4 space-y-2 text-[13px] text-slate-500 border-t border-slate-100">
                    <div className="flex justify-between">
                       <span>Ships from</span>
                       <span className="text-slate-900 font-medium text-right">Gallatin Atelier</span>
