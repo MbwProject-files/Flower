@@ -15,6 +15,7 @@ import ScrollToTop from './components/ScrollToTop'
 import Dashboard from './pages/admin/Dashboard'
 import ProductManagement from './pages/admin/ProductManagement'
 import MenuOverview from './pages/admin/MenuOverview'
+import BannerManagement from './pages/admin/BannerManagement'
 import AdminComingSoon from './pages/admin/ComingSoon'
 
 function App() {
@@ -37,6 +38,7 @@ function App() {
           {/* Admin Side */}
           <Route path="/admin" element={<Dashboard />} />
           <Route path="/admin/all-menus" element={<MenuOverview />} />
+          <Route path="/admin/banners" element={<BannerManagement />} />
           <Route path="/admin/products" element={<ProductManagement />} />
           <Route path="/admin/orders" element={<AdminComingSoon title="Order Management" />} />
           <Route path="/admin/customers" element={<AdminComingSoon title="Customer Management" />} />

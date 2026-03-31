@@ -9,7 +9,8 @@ import {
   IconLogout,
   IconLayoutGrid,
   IconBrush,
-  IconChevronRight
+  IconChevronRight,
+  IconPhoto
 } from "@tabler/icons-react";
 import { clsx } from "clsx";
 import { twMerge } from "tailwind-merge";
@@ -24,6 +25,7 @@ const menuItems = [
     items: [
       { label: "Dashboard", icon: IconLayoutDashboard, path: "/admin" },
       { label: "Header", icon: IconBrush, path: "/admin/all-menus", isSpecial: true },
+      { label: "Banner", icon: IconPhoto, path: "/admin/banners", isSpecial: true },
     ]
   },
   { 
@@ -105,22 +107,6 @@ const AdminSidebar = () => {
 
       {/* User Status Section */}
       <div className="p-4 border-t border-slate-50 mt-auto">
-        <div className="bg-slate-50 p-4 rounded-[2rem] flex items-center gap-3 mb-4">
-             <div className="w-10 h-10 rounded-full bg-white border border-slate-100 p-0.5">
-                <img 
-                    src="https://api.dicebear.com/7.x/avataaars/svg?seed=Admin" 
-                    alt="User" 
-                    className="w-full h-full rounded-full" 
-                />
-             </div>
-             <div className="flex-1 overflow-hidden">
-                <p className="text-xs font-bold text-slate-800 truncate">Bouquet Manager</p>
-                <div className="flex items-center gap-1">
-                    <span className="w-1.5 h-1.5 bg-emerald-500 rounded-full" />
-                    <span className="text-[10px] font-bold text-slate-400 uppercase tracking-tighter">Online</span>
-                </div>
-             </div>
-        </div>
         <button className="flex items-center justify-center gap-3 w-full px-4 py-3.5 rounded-2xl text-red-500 bg-red-50 hover:bg-red-100 transition-all duration-200 text-sm font-black group">
           <IconLogout size={20} className="group-hover:rotate-12 transition-transform duration-300" />
           Logout System
