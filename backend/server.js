@@ -102,15 +102,8 @@ const startServer = async () => {
   try {
     console.log('\n🚀 Starting Flower Shop CMS Backend...\n');
     
-    // Check database connection
-    const dbConnected = await checkDatabaseConnection();
-    
-    if (!dbConnected) {
-      console.log('⚠️  Database not connected. Attempting to initialize...\n');
-      await initializeDatabase();
-    } else {
-      console.log('✅ Database already initialized\n');
-    }
+    // Skip database check for now - will connect when needed
+    console.log('⚠️  Skipping database initialization (connect on demand)\n');
     
     // Start server
     app.listen(PORT, '0.0.0.0', () => {
