@@ -1,0 +1,295 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Backend Preview - Flower Shop CMS</title>
+    <style>
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            min-height: 100vh;
+            padding: 2rem;
+            color: #1e293b;
+        }
+        .container { max-width: 1400px; margin: 0 auto; }
+        .hero {
+            background: white;
+            padding: 3rem;
+            border-radius: 1.5rem;
+            box-shadow: 0 20px 60px rgba(0,0,0,0.2);
+            margin-bottom: 2rem;
+            text-align: center;
+        }
+        h1 { font-size: 3rem; color: #667eea; margin-bottom: 0.5rem; }
+        .subtitle { font-size: 1.25rem; color: #64748b; margin-bottom: 2rem; }
+        .badge {
+            display: inline-block;
+            background: #10b981;
+            color: white;
+            padding: 0.75rem 1.5rem;
+            border-radius: 2rem;
+            font-weight: bold;
+            margin: 0.5rem;
+        }
+        .grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(350px, 1fr)); gap: 2rem; margin: 2rem 0; }
+        .card {
+            background: white;
+            padding: 2rem;
+            border-radius: 1rem;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.15);
+        }
+        .card h2 { color: #667eea; margin-bottom: 1.5rem; font-size: 1.5rem; }
+        .stat {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 1rem;
+            background: #f8fafc;
+            border-radius: 0.5rem;
+            margin-bottom: 0.75rem;
+        }
+        .stat-label { color: #64748b; font-weight: 500; }
+        .stat-value { 
+            background: #667eea;
+            color: white;
+            padding: 0.5rem 1rem;
+            border-radius: 0.5rem;
+            font-weight: bold;
+        }
+        .btn {
+            display: inline-block;
+            background: #667eea;
+            color: white;
+            padding: 1rem 2rem;
+            border-radius: 0.75rem;
+            text-decoration: none;
+            font-weight: bold;
+            margin: 0.5rem;
+            transition: all 0.3s;
+        }
+        .btn:hover { background: #5568d3; transform: translateY(-2px); }
+        .btn-outline {
+            background: transparent;
+            border: 2px solid white;
+            color: white;
+        }
+        .btn-outline:hover { background: rgba(255,255,255,0.1); }
+        .endpoint-list {
+            background: #1e293b;
+            color: #10b981;
+            padding: 1.5rem;
+            border-radius: 0.75rem;
+            font-family: 'Courier New', monospace;
+            font-size: 0.9rem;
+            max-height: 400px;
+            overflow-y: auto;
+        }
+        .endpoint-list div { padding: 0.5rem 0; border-bottom: 1px solid #334155; }
+        .endpoint-list div:last-child { border-bottom: none; }
+        .method { 
+            display: inline-block;
+            width: 60px;
+            font-weight: bold;
+        }
+        .get { color: #10b981; }
+        .post { color: #3b82f6; }
+        .put { color: #f59e0b; }
+        .delete { color: #ef4444; }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="hero">
+            <h1>🌸 Flower Shop CMS Backend</h1>
+            <p class="subtitle">Complete REST API with PostgreSQL Database</p>
+            <div>
+                <span class="badge" id="status">● Checking Status...</span>
+                <span class="badge" style="background: #3b82f6;">11 CMS Sections</span>
+                <span class="badge" style="background: #f59e0b;">JWT Auth</span>
+                <span class="badge" style="background: #ec4899;">Image Upload</span>
+            </div>
+            <div style="margin-top: 2rem;">
+                <a href="http://localhost:5000/docs" class="btn" target="_blank">📚 API Documentation</a>
+                <a href="#endpoints" class="btn" style="background: #10b981;">📋 View All Endpoints</a>
+            </div>
+        </div>
+
+        <div class="grid">
+            <div class="card">
+                <h2>🔐 Admin Credentials</h2>
+                <div class="stat">
+                    <span class="stat-label">Username</span>
+                    <span class="stat-value">admin</span>
+                </div>
+                <div class="stat">
+                    <span class="stat-label">Password</span>
+                    <span class="stat-value">admin123</span>
+                </div>
+                <div class="stat">
+                    <span class="stat-label">API Base URL</span>
+                    <span class="stat-value" style="font-size: 0.8rem;">localhost:5000/api</span>
+                </div>
+            </div>
+
+            <div class="card">
+                <h2>📊 Database Statistics</h2>
+                <div class="stat">
+                    <span class="stat-label">Total Tables</span>
+                    <span class="stat-value">12</span>
+                </div>
+                <div class="stat">
+                    <span class="stat-label">Categories</span>
+                    <span class="stat-value">6</span>
+                </div>
+                <div class="stat">
+                    <span class="stat-label">Banners</span>
+                    <span class="stat-value">3</span>
+                </div>
+                <div class="stat">
+                    <span class="stat-label">FAQs</span>
+                    <span class="stat-value">5</span>
+                </div>
+            </div>
+
+            <div class="card">
+                <h2>⚡ Quick Test</h2>
+                <button onclick="testLogin()" class="btn" style="width: 100%; margin: 0.5rem 0;">
+                    🔑 Test Login API
+                </button>
+                <button onclick="testBanners()" class="btn" style="width: 100%; margin: 0.5rem 0; background: #10b981;">
+                    🎨 Get Banners
+                </button>
+                <button onclick="testProducts()" class="btn" style="width: 100%; margin: 0.5rem 0; background: #f59e0b;">
+                    🌺 Get Products
+                </button>
+                <div id="testResult" style="margin-top: 1rem; padding: 1rem; background: #f8fafc; border-radius: 0.5rem; display: none; max-height: 200px; overflow-y: auto; font-size: 0.85rem;">
+                </div>
+            </div>
+        </div>
+
+        <div class="card" id="endpoints">
+            <h2>📋 All API Endpoints</h2>
+            <div class="endpoint-list">
+                <div><span class="method post">POST</span> <span class="get">/api/auth/login</span></div>
+                <div><span class="method get">GET</span> <span class="get">/api/auth/profile</span></div>
+                <div><span class="method get">GET</span> <span class="get">/api/dashboard/stats</span></div>
+                <div><span class="method get">GET</span> <span class="get">/api/banners</span></div>
+                <div><span class="method post">POST</span> <span class="post">/api/banners</span></div>
+                <div><span class="method put">PUT</span> <span class="put">/api/banners/:id</span></div>
+                <div><span class="method delete">DELETE</span> <span class="delete">/api/banners/:id</span></div>
+                <div><span class="method get">GET</span> <span class="get">/api/products</span></div>
+                <div><span class="method post">POST</span> <span class="post">/api/products</span></div>
+                <div><span class="method put">PUT</span> <span class="put">/api/products/:id</span></div>
+                <div><span class="method delete">DELETE</span> <span class="delete">/api/products/:id</span></div>
+                <div><span class="method get">GET</span> <span class="get">/api/categories</span></div>
+                <div><span class="method post">POST</span> <span class="post">/api/categories</span></div>
+                <div><span class="method put">PUT</span> <span class="put">/api/categories/:id</span></div>
+                <div><span class="method delete">DELETE</span> <span class="delete">/api/categories/:id</span></div>
+                <div><span class="method get">GET</span> <span class="get">/api/faqs</span></div>
+                <div><span class="method post">POST</span> <span class="post">/api/faqs</span></div>
+                <div><span class="method put">PUT</span> <span class="put">/api/faqs/:id</span></div>
+                <div><span class="method delete">DELETE</span> <span class="delete">/api/faqs/:id</span></div>
+                <div><span class="method get">GET</span> <span class="get">/api/testimonials</span></div>
+                <div><span class="method post">POST</span> <span class="post">/api/testimonials</span></div>
+                <div><span class="method put">PUT</span> <span class="put">/api/testimonials/:id</span></div>
+                <div><span class="method delete">DELETE</span> <span class="delete">/api/testimonials/:id</span></div>
+                <div><span class="method get">GET</span> <span class="get">/api/cms/header</span></div>
+                <div><span class="method put">PUT</span> <span class="put">/api/cms/header</span></div>
+                <div><span class="method get">GET</span> <span class="get">/api/cms/why-choose-us</span></div>
+                <div><span class="method post">POST</span> <span class="post">/api/cms/why-choose-us</span></div>
+                <div><span class="method put">PUT</span> <span class="put">/api/cms/why-choose-us/:id</span></div>
+                <div><span class="method delete">DELETE</span> <span class="delete">/api/cms/why-choose-us/:id</span></div>
+                <div><span class="method get">GET</span> <span class="get">/api/cms/discoveries</span></div>
+                <div><span class="method post">POST</span> <span class="post">/api/cms/discoveries</span></div>
+                <div><span class="method put">PUT</span> <span class="put">/api/cms/discoveries/:id</span></div>
+                <div><span class="method delete">DELETE</span> <span class="delete">/api/cms/discoveries/:id</span></div>
+                <div><span class="method get">GET</span> <span class="get">/api/settings/cta</span></div>
+                <div><span class="method put">PUT</span> <span class="put">/api/settings/cta</span></div>
+                <div><span class="method get">GET</span> <span class="get">/api/settings/contact</span></div>
+                <div><span class="method put">PUT</span> <span class="put">/api/settings/contact</span></div>
+                <div><span class="method get">GET</span> <span class="get">/api/settings/footer</span></div>
+                <div><span class="method post">POST</span> <span class="post">/api/settings/footer</span></div>
+                <div><span class="method put">PUT</span> <span class="put">/api/settings/footer/:id</span></div>
+                <div><span class="method delete">DELETE</span> <span class="delete">/api/settings/footer/:id</span></div>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        async function checkStatus() {
+            try {
+                const response = await fetch('http://localhost:5000/api/health');
+                const data = await response.json();
+                const statusEl = document.getElementById('status');
+                if (data.success) {
+                    statusEl.textContent = '● Backend Online';
+                    statusEl.style.background = '#10b981';
+                } else {
+                    statusEl.textContent = '● Backend Offline';
+                    statusEl.style.background = '#ef4444';
+                }
+            } catch (error) {
+                document.getElementById('status').textContent = '● Backend Offline';
+                document.getElementById('status').style.background = '#ef4444';
+            }
+        }
+
+        async function testLogin() {
+            const resultEl = document.getElementById('testResult');
+            resultEl.style.display = 'block';
+            resultEl.textContent = 'Testing login...';
+            
+            try {
+                const response = await fetch('http://localhost:5000/api/auth/login', {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify({ username: 'admin', password: 'admin123' })
+                });
+                const data = await response.json();
+                resultEl.textContent = JSON.stringify(data, null, 2);
+                resultEl.style.background = data.success ? '#d1fae5' : '#fee2e2';
+            } catch (error) {
+                resultEl.textContent = 'Error: ' + error.message;
+                resultEl.style.background = '#fee2e2';
+            }
+        }
+
+        async function testBanners() {
+            const resultEl = document.getElementById('testResult');
+            resultEl.style.display = 'block';
+            resultEl.textContent = 'Fetching banners...';
+            
+            try {
+                const response = await fetch('http://localhost:5000/api/banners');
+                const data = await response.json();
+                resultEl.textContent = JSON.stringify(data, null, 2);
+                resultEl.style.background = '#d1fae5';
+            } catch (error) {
+                resultEl.textContent = 'Error: ' + error.message;
+                resultEl.style.background = '#fee2e2';
+            }
+        }
+
+        async function testProducts() {
+            const resultEl = document.getElementById('testResult');
+            resultEl.style.display = 'block';
+            resultEl.textContent = 'Fetching products...';
+            
+            try {
+                const response = await fetch('http://localhost:5000/api/products');
+                const data = await response.json();
+                resultEl.textContent = JSON.stringify(data, null, 2);
+                resultEl.style.background = '#d1fae5';
+            } catch (error) {
+                resultEl.textContent = 'Error: ' + error.message;
+                resultEl.style.background = '#fee2e2';
+            }
+        }
+
+        checkStatus();
+        setInterval(checkStatus, 10000);
+    </script>
+</body>
+</html>

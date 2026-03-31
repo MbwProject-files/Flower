@@ -1,0 +1,391 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Flower Shop CMS - API Documentation</title>
+    <style>
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        body { 
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, sans-serif;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            min-height: 100vh;
+            padding: 2rem;
+        }
+        .container { max-width: 1200px; margin: 0 auto; }
+        .header {
+            background: white;
+            padding: 2rem;
+            border-radius: 1rem;
+            margin-bottom: 2rem;
+            box-shadow: 0 20px 60px rgba(0,0,0,0.15);
+        }
+        .header h1 { color: #667eea; font-size: 2.5rem; margin-bottom: 0.5rem; }
+        .header p { color: #64748b; font-size: 1.1rem; }
+        .status { 
+            display: inline-block;
+            background: #10b981;
+            color: white;
+            padding: 0.5rem 1rem;
+            border-radius: 2rem;
+            font-size: 0.875rem;
+            font-weight: bold;
+            margin-top: 1rem;
+        }
+        .grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(300px, 1fr)); gap: 1.5rem; margin-bottom: 2rem; }
+        .card {
+            background: white;
+            padding: 1.5rem;
+            border-radius: 1rem;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.1);
+            transition: transform 0.3s;
+        }
+        .card:hover { transform: translateY(-5px); }
+        .card h3 { color: #667eea; margin-bottom: 1rem; font-size: 1.25rem; }
+        .endpoint {
+            background: #f1f5f9;
+            padding: 1rem;
+            border-radius: 0.5rem;
+            margin-bottom: 0.75rem;
+            border-left: 4px solid #667eea;
+        }
+        .method {
+            display: inline-block;
+            padding: 0.25rem 0.75rem;
+            border-radius: 0.25rem;
+            font-size: 0.75rem;
+            font-weight: bold;
+            margin-right: 0.5rem;
+        }
+        .get { background: #10b981; color: white; }
+        .post { background: #3b82f6; color: white; }
+        .put { background: #f59e0b; color: white; }
+        .delete { background: #ef4444; color: white; }
+        .path { font-family: 'Courier New', monospace; color: #475569; }
+        .credentials {
+            background: #fef3c7;
+            border: 2px solid #fbbf24;
+            padding: 1.5rem;
+            border-radius: 1rem;
+            margin-top: 2rem;
+        }
+        .credentials h3 { color: #d97706; margin-bottom: 1rem; }
+        .cred-item { 
+            background: white;
+            padding: 0.75rem;
+            border-radius: 0.5rem;
+            margin-bottom: 0.5rem;
+            font-family: monospace;
+        }
+        .test-section {
+            background: white;
+            padding: 2rem;
+            border-radius: 1rem;
+            box-shadow: 0 20px 60px rgba(0,0,0,0.15);
+        }
+        .test-section h2 { color: #667eea; margin-bottom: 1.5rem; }
+        .test-form { display: flex; gap: 1rem; margin-bottom: 1rem; }
+        .test-form input {
+            flex: 1;
+            padding: 0.75rem;
+            border: 2px solid #e2e8f0;
+            border-radius: 0.5rem;
+            font-size: 1rem;
+        }
+        .test-form button {
+            background: #667eea;
+            color: white;
+            border: none;
+            padding: 0.75rem 2rem;
+            border-radius: 0.5rem;
+            cursor: pointer;
+            font-weight: bold;
+            transition: background 0.3s;
+        }
+        .test-form button:hover { background: #5568d3; }
+        .response {
+            background: #1e293b;
+            color: #10b981;
+            padding: 1.5rem;
+            border-radius: 0.5rem;
+            font-family: monospace;
+            white-space: pre-wrap;
+            max-height: 400px;
+            overflow-y: auto;
+            display: none;
+        }
+        .response.show { display: block; }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="header">
+            <h1>🌸 Flower Shop CMS API</h1>
+            <p>Complete Backend Documentation & Testing Interface</p>
+            <span class="status" id="status">● CHECKING...</span>
+        </div>
+
+        <div class="credentials">
+            <h3>🔐 Admin Credentials</h3>
+            <div class="cred-item"><strong>Username:</strong> admin</div>
+            <div class="cred-item"><strong>Password:</strong> admin123</div>
+            <div class="cred-item"><strong>API Base URL:</strong> http://localhost:5000/api</div>
+        </div>
+
+        <div class="test-section">
+            <h2>🧪 Test Authentication</h2>
+            <div class="test-form">
+                <input type="text" id="username" placeholder="Username" value="admin">
+                <input type="password" id="password" placeholder="Password" value="admin123">
+                <button onclick="testLogin()">Login & Get Token</button>
+            </div>
+            <div class="response" id="loginResponse"></div>
+        </div>
+
+        <h2 style="color: white; margin: 2rem 0 1rem; font-size: 1.5rem;">📋 Available API Endpoints</h2>
+
+        <div class="grid">
+            <div class="card">
+                <h3>🔐 Authentication</h3>
+                <div class="endpoint">
+                    <span class="method post">POST</span>
+                    <span class="path">/api/auth/login</span>
+                </div>
+                <div class="endpoint">
+                    <span class="method get">GET</span>
+                    <span class="path">/api/auth/profile</span>
+                </div>
+            </div>
+
+            <div class="card">
+                <h3>📊 Dashboard</h3>
+                <div class="endpoint">
+                    <span class="method get">GET</span>
+                    <span class="path">/api/dashboard/stats</span>
+                </div>
+            </div>
+
+            <div class="card">
+                <h3>🎨 Banners</h3>
+                <div class="endpoint">
+                    <span class="method get">GET</span>
+                    <span class="path">/api/banners</span>
+                </div>
+                <div class="endpoint">
+                    <span class="method post">POST</span>
+                    <span class="path">/api/banners</span>
+                </div>
+                <div class="endpoint">
+                    <span class="method put">PUT</span>
+                    <span class="path">/api/banners/:id</span>
+                </div>
+                <div class="endpoint">
+                    <span class="method delete">DELETE</span>
+                    <span class="path">/api/banners/:id</span>
+                </div>
+            </div>
+
+            <div class="card">
+                <h3>🌺 Products</h3>
+                <div class="endpoint">
+                    <span class="method get">GET</span>
+                    <span class="path">/api/products</span>
+                </div>
+                <div class="endpoint">
+                    <span class="method post">POST</span>
+                    <span class="path">/api/products</span>
+                </div>
+                <div class="endpoint">
+                    <span class="method put">PUT</span>
+                    <span class="path">/api/products/:id</span>
+                </div>
+                <div class="endpoint">
+                    <span class="method delete">DELETE</span>
+                    <span class="path">/api/products/:id</span>
+                </div>
+            </div>
+
+            <div class="card">
+                <h3>📁 Categories</h3>
+                <div class="endpoint">
+                    <span class="method get">GET</span>
+                    <span class="path">/api/categories</span>
+                </div>
+                <div class="endpoint">
+                    <span class="method post">POST</span>
+                    <span class="path">/api/categories</span>
+                </div>
+                <div class="endpoint">
+                    <span class="method put">PUT</span>
+                    <span class="path">/api/categories/:id</span>
+                </div>
+                <div class="endpoint">
+                    <span class="method delete">DELETE</span>
+                    <span class="path">/api/categories/:id</span>
+                </div>
+            </div>
+
+            <div class="card">
+                <h3>❓ FAQs</h3>
+                <div class="endpoint">
+                    <span class="method get">GET</span>
+                    <span class="path">/api/faqs</span>
+                </div>
+                <div class="endpoint">
+                    <span class="method post">POST</span>
+                    <span class="path">/api/faqs</span>
+                </div>
+                <div class="endpoint">
+                    <span class="method put">PUT</span>
+                    <span class="path">/api/faqs/:id</span>
+                </div>
+                <div class="endpoint">
+                    <span class="method delete">DELETE</span>
+                    <span class="path">/api/faqs/:id</span>
+                </div>
+            </div>
+
+            <div class="card">
+                <h3>💬 Testimonials</h3>
+                <div class="endpoint">
+                    <span class="method get">GET</span>
+                    <span class="path">/api/testimonials</span>
+                </div>
+                <div class="endpoint">
+                    <span class="method post">POST</span>
+                    <span class="path">/api/testimonials</span>
+                </div>
+                <div class="endpoint">
+                    <span class="method put">PUT</span>
+                    <span class="path">/api/testimonials/:id</span>
+                </div>
+                <div class="endpoint">
+                    <span class="method delete">DELETE</span>
+                    <span class="path">/api/testimonials/:id</span>
+                </div>
+            </div>
+
+            <div class="card">
+                <h3>📄 CMS Sections</h3>
+                <div class="endpoint">
+                    <span class="method get">GET</span>
+                    <span class="path">/api/cms/header</span>
+                </div>
+                <div class="endpoint">
+                    <span class="method get">GET</span>
+                    <span class="path">/api/cms/why-choose-us</span>
+                </div>
+                <div class="endpoint">
+                    <span class="method get">GET</span>
+                    <span class="path">/api/cms/discoveries</span>
+                </div>
+            </div>
+
+            <div class="card">
+                <h3>⚙️ Settings</h3>
+                <div class="endpoint">
+                    <span class="method get">GET</span>
+                    <span class="path">/api/settings/cta</span>
+                </div>
+                <div class="endpoint">
+                    <span class="method get">GET</span>
+                    <span class="path">/api/settings/contact</span>
+                </div>
+                <div class="endpoint">
+                    <span class="method get">GET</span>
+                    <span class="path">/api/settings/footer</span>
+                </div>
+            </div>
+        </div>
+
+        <div class="test-section" style="margin-top: 2rem;">
+            <h2>🔍 Test Any Endpoint</h2>
+            <div class="test-form">
+                <select id="method" style="padding: 0.75rem; border: 2px solid #e2e8f0; border-radius: 0.5rem;">
+                    <option>GET</option>
+                    <option>POST</option>
+                    <option>PUT</option>
+                    <option>DELETE</option>
+                </select>
+                <input type="text" id="endpoint" placeholder="Endpoint (e.g., /api/banners)" value="/api/banners">
+                <button onclick="testEndpoint()">Test Endpoint</button>
+            </div>
+            <div class="response" id="endpointResponse"></div>
+        </div>
+    </div>
+
+    <script>
+        // Check API status on load
+        async function checkStatus() {
+            try {
+                const response = await fetch('http://localhost:5000/api/health');
+                const data = await response.json();
+                const statusEl = document.getElementById('status');
+                if (data.success) {
+                    statusEl.textContent = '● ONLINE';
+                    statusEl.style.background = '#10b981';
+                } else {
+                    statusEl.textContent = '● OFFLINE';
+                    statusEl.style.background = '#ef4444';
+                }
+            } catch (error) {
+                document.getElementById('status').textContent = '● OFFLINE';
+                document.getElementById('status').style.background = '#ef4444';
+            }
+        }
+
+        async function testLogin() {
+            const username = document.getElementById('username').value;
+            const password = document.getElementById('password').value;
+            const responseEl = document.getElementById('loginResponse');
+
+            try {
+                const response = await fetch('http://localhost:5000/api/auth/login', {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify({ username, password })
+                });
+                const data = await response.json();
+                responseEl.textContent = JSON.stringify(data, null, 2);
+                responseEl.classList.add('show');
+                
+                if (data.success && data.data.token) {
+                    localStorage.setItem('token', data.data.token);
+                }
+            } catch (error) {
+                responseEl.textContent = 'Error: ' + error.message;
+                responseEl.classList.add('show');
+            }
+        }
+
+        async function testEndpoint() {
+            const method = document.getElementById('method').value;
+            const endpoint = document.getElementById('endpoint').value;
+            const responseEl = document.getElementById('endpointResponse');
+            const token = localStorage.getItem('token');
+
+            try {
+                const options = {
+                    method: method,
+                    headers: {
+                        'Content-Type': 'application/json',
+                        ...(token && { 'Authorization': `Bearer ${token}` })
+                    }
+                };
+
+                const response = await fetch(`http://localhost:5000${endpoint}`, options);
+                const data = await response.json();
+                responseEl.textContent = JSON.stringify(data, null, 2);
+                responseEl.classList.add('show');
+            } catch (error) {
+                responseEl.textContent = 'Error: ' + error.message;
+                responseEl.classList.add('show');
+            }
+        }
+
+        // Check status on page load
+        checkStatus();
+        setInterval(checkStatus, 10000); // Check every 10 seconds
+    </script>
+</body>
+</html>
