@@ -18,6 +18,7 @@ import OrderSuccess from './pages/OrderSuccess';
 // Admin Pages
 import AdminLogin from './pages/admin/AdminLogin';
 import NewDashboard from './pages/admin/NewDashboard';
+import BannersManagement from './pages/admin/BannersManagement';
 
 // Protected Route Component
 const ProtectedRoute = ({ children }) => {
@@ -60,6 +61,14 @@ function App() {
               element={
                 <ProtectedRoute>
                   <NewDashboard />
+                </ProtectedRoute>
+              } 
+            />
+            <Route 
+              path="/admin/banners" 
+              element={
+                <ProtectedRoute>
+                  <BannersManagement />
                 </ProtectedRoute>
               } 
             />
